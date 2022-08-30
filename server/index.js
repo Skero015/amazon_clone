@@ -12,7 +12,8 @@ const PORT = 4000;
 const DB = "mongodb+srv://skero:<password>@cluster0.uf83nkq.mongodb.net/?retryWrites=true&w=majority";
 
 //middleware --> communicate with (client-> middleware -> server->client)
-app.use(authRouter)
+app.use(express.json());
+app.use(authRouter);
 
 //connections
 mongoose.connect(DB).then( () => {
