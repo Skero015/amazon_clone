@@ -9,7 +9,7 @@ const authRouter = require("./routes/auth");
 //init
 const app = express();
 const PORT = 4000;
-const DB = "mongodb+srv://skero:<password>@cluster0.uf83nkq.mongodb.net/?retryWrites=true&w=majority";
+const DB = "mongodb+srv://skero:<>@cluster0.uf83nkq.mongodb.net/?retryWrites=true&w=majority";
 
 //middleware --> communicate with (client-> middleware -> server->client)
 app.use(express.json());

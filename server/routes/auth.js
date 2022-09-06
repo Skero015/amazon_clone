@@ -72,5 +72,35 @@ authRouter.post("/api/signin", async (req, res) => {
     }
 });
 
+//check if token is valid
+authRouter.post("/api/tokenIsValid", async (req, res) => {
+
+    try{
+        //request body map
+        const token = req.header('x-auth-token');
+
+        //return false if token is not valid
+        if(!token) return res.json(false);
+
+        const verified = jwt.verify(token, 'passwordKey');
+
+        if(!verified) return res.json(false);
+
+        const user = await User.findById(verified.id);
+
+        if(!user) return res.json(false);
+        res.json(true);
+
+    }catch(e) {
+        res.status(500).json({error: e.message});
+    }
+});
+
+//get user data
+authRouter.get('/', auth, async (req, res) => {
+    const user = await User.findById(req.user);
+    res.json({...user._doc, token: req.token});
+});
+
 //to use authRouter elsewhere in the application
 module.exports = authRouter;

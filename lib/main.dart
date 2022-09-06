@@ -1,10 +1,12 @@
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/features/home/home_screen.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/global variables.dart';
+import 'features/auth/services/auth_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,11 +22,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
 
+  final AuthService authService = AuthService();
+
   @override
   void initState() {
     super.initState();
 
-
+    authService.getUserData(context);
   }
 
   @override
@@ -51,7 +55,11 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         onGenerateRoute: (settings) => generateRoute(settings),
-        home: const AuthScreen(),
+        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            ? Provider.of<UserProvider>(context).user.type == 'user'
+            ? const HomeScreen()
+            : const HomeScreen()
+            : const AuthScreen(),
       ),
     );
   }
